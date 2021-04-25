@@ -1,8 +1,9 @@
 <template>
   <v-app>
     <v-app-bar
+      clipped-left
       app
-      dark >
+      dark>
 
       <v-app-bar-nav-icon @click="drawer = !drawer"/>
 
@@ -14,6 +15,7 @@
 
     <v-navigation-drawer
       v-model="drawer"
+      clipped
       app >
       <!-- What is this nav ting? -->
       <v-list
@@ -55,9 +57,8 @@ export default {
   data: () => ({
     drawer: null,
     nav: [
-      { title: 'Home', icon: 'mdi-home', to: {name: 'home'}},
       { title: 'Items', icon: 'mdi-format-list-bulleted', to: {name: 'items'}},
-      { title: 'About', icon: 'mdi-help-box', to: {name: 'about'} },
+      { title: 'Info', icon: 'mdi-help-box', to: {name: 'about'} },
     ],
   }),
 };

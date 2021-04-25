@@ -1,12 +1,9 @@
 <template>
-  <div class="item">
-
-    <Breadcrumbs />
-
-
+  <div>
 
     <v-card
       v-if="item"
+      class="mx-auto mt-6 pa-4"
       max-width="400px">
 
       <v-card-title>{{item.title}}</v-card-title>
@@ -18,13 +15,15 @@
       </v-card-text>
 
       <v-card-actions>
+        <v-spacer/>
         <v-btn
           color="#c00000"
-          dark
+          text
           @click="delete_item()">
           <span>Delete item</span>
         </v-btn>
         <v-btn
+          text
           @click="update_item()">
           <span>Update item</span>
         </v-btn>
@@ -47,19 +46,15 @@
       </template>
     </v-snackbar>
 
-
-
-
   </div>
 </template>
 
 <script>
-import Breadcrumbs from '@/components/Breadcrumbs.vue'
 
 export default {
   name: 'Item',
   components: {
-    Breadcrumbs
+
   },
   data: () => ({
     item: null,
