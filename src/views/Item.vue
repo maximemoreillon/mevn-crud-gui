@@ -13,7 +13,11 @@
       <v-toolbar-title>Item</v-toolbar-title>
 
       <v-spacer />
-
+      <v-btn
+        icon
+        @click="update_item()">
+        <v-icon>mdi-content-save</v-icon>
+      </v-btn>
       <v-btn
         icon
         color="#c00000"
@@ -22,6 +26,12 @@
       </v-btn>
     </v-toolbar>
     <v-divider/>
+
+    <template v-if="loading">
+      <v-card-text class="text-center">
+        <v-progress-circular indeterminate />
+      </v-card-text>
+    </template>
 
     <template v-if="item">
       <v-card-text>
@@ -58,6 +68,7 @@ export default {
   },
   methods: {
     get_item(){
+      this.item = null
       this.loading = true
       const url = `${process.env.VUE_APP_API_URL}/items/${this.item_id}`
       this.axios.get(url)
@@ -83,6 +94,15 @@ export default {
         console.error(error)
       })
       .finally( () => { this.loading = false })
+    },
+    update_item(){
+      const url = `${process.env.VUE_APP_API_URL}/items/${this.item_id}`
+      this.axios.patch(url, this.item)
+      .then( () => { this.get_item() })
+      .catch( (error) => {
+        alert('error')
+        console.error(error)
+      })
     }
 
   },

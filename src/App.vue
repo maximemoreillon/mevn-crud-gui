@@ -3,12 +3,13 @@
     <v-app-bar
       app
       color="primary"
-      dark
-    >
+      dark >
+
+    <v-toolbar-title>MEVN CRUD</v-toolbar-title>
 
     </v-app-bar>
 
-    <v-main class="gre lighten-4">
+    <v-main class="grey lighten-4">
       <v-container>
         <router-view/>
       </v-container>
