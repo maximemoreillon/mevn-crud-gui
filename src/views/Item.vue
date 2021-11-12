@@ -11,6 +11,15 @@
       </v-btn>
 
       <v-toolbar-title>Item</v-toolbar-title>
+
+      <v-spacer />
+
+      <v-btn
+        icon
+        color="#c00000"
+        @click="delete_item()">
+        <v-icon>mdi-delete</v-icon>
+      </v-btn>
     </v-toolbar>
     <v-divider/>
 
@@ -60,7 +69,22 @@ export default {
         console.error(error)
       })
       .finally( () => { this.loading = false })
+    },
+    delete_item(){
+      if(!confirm(`Delete item ${this.item_id}?`)) return
+      this.loading = true
+      const url = `${process.env.VUE_APP_API_URL}/items/${this.item_id}`
+      this.axios.delete(url)
+      .then( () => {
+        this.$router.push({name: 'items'})
+      })
+      .catch( (error) => {
+        alert('error')
+        console.error(error)
+      })
+      .finally( () => { this.loading = false })
     }
+
   },
   computed:{
     item_id(){
