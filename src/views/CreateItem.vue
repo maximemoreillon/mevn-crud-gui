@@ -15,18 +15,30 @@
     <v-divider/>
     <v-card-text>
       <v-form @submit.prevent="create_item()">
+
         <v-row>
           <v-col>
-            <v-text-field
-              label="Name"
-              v-model="new_item.name"/>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  label="Name"
+                  v-model="new_item.name"/>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  label="Value"
+                  v-model="new_item.value"/>
+              </v-col>
+            </v-row>
           </v-col>
-          <v-col>
-            <v-text-field
-              label="Value"
-              v-model="new_item.value"/>
+
+          <v-col cols="auto">
+            <v-date-picker v-model="new_item.time" />
           </v-col>
         </v-row>
+
         <v-row>
           <v-spacer />
           <v-col cols="auto">
@@ -52,6 +64,7 @@ export default {
       new_item: {
         name: '',
         value: 0,
+        time: null,
       },
       loading: false,
     }

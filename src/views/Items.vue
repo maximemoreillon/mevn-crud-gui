@@ -25,14 +25,17 @@
 </template>
 
 <script>
-import headers from '@/item_properties.js'
 export default {
   name: 'Items',
   data(){
     return {
       loading: false,
       items: [],
-      headers,
+      headers: [
+        {text: 'Name', value: 'name'},
+        {text: 'Value', value: 'value'},
+        {text: 'Date', value: 'time'},
+      ],
     }
   },
   mounted(){
@@ -42,7 +45,6 @@ export default {
     get_items(){
       this.loading = true
       const url = `${process.env.VUE_APP_API_URL}/items`
-      console.log(url)
       this.axios.get(url)
       .then( ({data}) => { this.items = data})
       .catch( (error) => {

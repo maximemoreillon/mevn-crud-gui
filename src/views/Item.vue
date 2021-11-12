@@ -35,13 +35,22 @@
 
     <template v-if="item">
       <v-card-text>
-        <v-row
-          v-for="(property, index) in properties"
-          :key="`property_${index}`">
+        <v-row>
           <v-col>
             <v-text-field
-              :label="property.text"
-              v-model="item[property.value]"/>
+              label="Name"
+              v-model="item.name"/>
+          </v-col>
+          <v-col>
+            <v-text-field
+              label="Value"
+              v-model="item.value"/>
+          </v-col>
+          <v-col>
+            <v-text-field
+              label="Time"
+              readonly
+              v-model="item.time"/>
           </v-col>
         </v-row>
       </v-card-text>
@@ -52,7 +61,6 @@
 </template>
 
 <script>
-import properties from '@/item_properties.js'
 
 export default {
   name: 'Item',
@@ -60,7 +68,6 @@ export default {
     return {
       item: null,
       loading: false,
-      properties,
     }
   },
   mounted(){
