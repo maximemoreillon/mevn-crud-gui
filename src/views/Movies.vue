@@ -2,13 +2,13 @@
   <v-card>
 
     <v-toolbar flat>
-      <v-toolbar-title>Items</v-toolbar-title>
+      <v-toolbar-title>Movies</v-toolbar-title>
       <v-spacer />
       <v-btn
         exact
-        :to="{name: 'create_item'}">
+        :to="{name: 'create_movie'}">
         <v-icon>mdi-plus</v-icon>
-        <span class="ml-2">Create item</span>
+        <span class="ml-2">Create movie</span>
       </v-btn>
     </v-toolbar>
     <v-divider/>
@@ -16,7 +16,7 @@
       <v-data-table
         :loading="loading"
         :headers="headers"
-        :items="items"
+        :items="movies"
         @click:row="row_clicked($event)">
       </v-data-table>
     </v-card-text>
@@ -26,27 +26,28 @@
 
 <script>
 export default {
-  name: 'Items',
+  name: 'Movies',
   data(){
     return {
       loading: false,
-      items: [],
+      movies: [],
       headers: [
-        {text: 'Name', value: 'name'},
-        {text: 'Value', value: 'value'},
-        {text: 'Date', value: 'time'},
+        {text: 'Title', value: 'title'},
+        {text: 'Director', value: 'director.name'},
       ],
     }
   },
   mounted(){
-    this.get_items()
+    this.get_movies()
   },
   methods: {
-    get_items(){
+    get_movies(){
       this.loading = true
-      const url = `${process.env.VUE_APP_API_URL}/items`
+      const url = `${process.env.VUE_APP_API_URL}/movies`
       this.axios.get(url)
-      .then( ({data}) => { this.items = data})
+      .then( ({data}) => {
+        this.movies = data
+      })
       .catch( (error) => {
         alert('error')
         console.error(error)
@@ -54,7 +55,7 @@ export default {
       .finally( () => { this.loading = false })
     },
     row_clicked({_id}){
-      this.$router.push({name: 'item', params: {_id}})
+      this.$router.push({name: 'movie', params: {_id}})
     },
   }
 }
