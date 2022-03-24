@@ -1,31 +1,55 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import Home from '../views/Home.vue'
+import Persons from '../views/Persons.vue'
+import Person from '../views/Person.vue'
+import CreatePerson from '../views/CreatePerson.vue'
+import Movies from '../views/Movies.vue'
+import Movie from '../views/Movie.vue'
+import CreateMovie from '../views/CreateMovie.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
 
   {
-    path: '/items',
-    name: 'items',
-    component: () => import('../views/Items.vue'),
-    alias: '/'
+    path: '/',
+    name: 'home',
+    component: Home,
   },
   {
-    path: '/items/new',
-    name: 'create_item',
-    component: () => import('../views/CreateItem.vue'),
+    path: '/movies',
+    name: 'movies',
+    component: Movies,
   },
   {
-    path: '/items/:_id',
-    name: 'item',
-    component: () => import('../views/Item.vue'),
+    path: '/movies/new',
+    name: 'create_movie',
+    component: CreateMovie,
   },
   {
-    path: '/*',
-    name: 'not_found',
-    component: () => import('../views/NotFound.vue'),
+    path: '/movies/:_id',
+    name: 'movie',
+    component: Movie,
   },
+  {
+    path: '/persons',
+    name: 'persons',
+    component: Persons,
+  },
+  {
+    path: '/persons/new',
+    name: 'create_person',
+    component: CreatePerson,
+  },
+  {
+    path: '/persons/:_id',
+    name: 'person',
+    component: Person,
+  },
+
+
 ]
 
 const router = new VueRouter({
