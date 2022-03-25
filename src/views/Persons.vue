@@ -4,12 +4,7 @@
     <v-toolbar flat>
       <v-toolbar-title>Persons</v-toolbar-title>
       <v-spacer />
-      <v-btn
-        exact
-        :to="{name: 'create_person'}">
-        <v-icon>mdi-plus</v-icon>
-        <span class="ml-2">Create person</span>
-      </v-btn>
+      <CreatePersonDialog />
     </v-toolbar>
 
     <v-divider/>
@@ -27,8 +22,13 @@
 </template>
 
 <script>
+import CreatePersonDialog from '@/components/CreatePersonDialog.vue'
+
 export default {
   name: 'Persons',
+  components: {
+    CreatePersonDialog
+  },
   data(){
     return {
       loading: false,

@@ -4,14 +4,11 @@
     <v-toolbar flat>
       <v-toolbar-title>Movies</v-toolbar-title>
       <v-spacer />
-      <v-btn
-        exact
-        :to="{name: 'create_movie'}">
-        <v-icon>mdi-plus</v-icon>
-        <span class="ml-2">Create movie</span>
-      </v-btn>
+      <CreateMovieDialog />
     </v-toolbar>
+    
     <v-divider/>
+
     <v-card-text>
       <v-data-table
         :loading="loading"
@@ -25,8 +22,13 @@
 </template>
 
 <script>
+import CreateMovieDialog from '@/components/CreateMovieDialog.vue'
+
 export default {
   name: 'Movies',
+  components: {
+    CreateMovieDialog
+  },
   data(){
     return {
       loading: false,

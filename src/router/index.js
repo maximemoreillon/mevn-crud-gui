@@ -4,10 +4,9 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Persons from '../views/Persons.vue'
 import Person from '../views/Person.vue'
-import CreatePerson from '../views/CreatePerson.vue'
 import Movies from '../views/Movies.vue'
 import Movie from '../views/Movie.vue'
-import CreateMovie from '../views/CreateMovie.vue'
+import NotFound from '../views/NotFound.vue'
 
 Vue.use(VueRouter)
 
@@ -24,11 +23,6 @@ const routes = [
     component: Movies,
   },
   {
-    path: '/movies/new',
-    name: 'create_movie',
-    component: CreateMovie,
-  },
-  {
     path: '/movies/:_id',
     name: 'movie',
     component: Movie,
@@ -39,14 +33,14 @@ const routes = [
     component: Persons,
   },
   {
-    path: '/persons/new',
-    name: 'create_person',
-    component: CreatePerson,
-  },
-  {
     path: '/persons/:_id',
     name: 'person',
     component: Person,
+  },
+  {
+    path: '/*',
+    name: 'not_found',
+    component: NotFound,
   },
 
 
