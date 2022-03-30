@@ -14,6 +14,8 @@
         :loading="loading"
         :headers="headers"
         :items="persons"
+        :server-items-length="total"
+        :options.sync="options"
         @click:row="row_clicked($event)">
       </v-data-table>
     </v-card-text>
@@ -33,6 +35,8 @@ export default {
     return {
       loading: false,
       persons: [],
+      total: 0,
+      options: {},
       headers: [
         {text: 'Name', value: 'name'},
         {text: 'Age', value: 'age'},
@@ -42,13 +46,30 @@ export default {
   mounted(){
     this.get_persons()
   },
+  watch: {
+    options: {
+        handler () {
+          this.get_persons()
+        },
+        deep: true,
+      },
+  },
   methods: {
     get_persons(){
+
+      
+      
+      
       this.loading = true
       const url = `${process.env.VUE_APP_API_URL}/persons`
-      this.axios.get(url)
+
+      const { itemsPerPage, page } = this.options
+      const params = { limit: itemsPerPage, skip: ( page - 1 ) * itemsPerPage }
+
+      this.axios.get(url, { params })
       .then( ({data}) => {
-        this.persons = data
+        this.total = data.total
+        this.persons = data.items
       })
       .catch( (error) => {
         alert('error')
