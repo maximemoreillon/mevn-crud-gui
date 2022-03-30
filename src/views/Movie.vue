@@ -107,9 +107,10 @@ export default {
     },
     get_persons(){
       const url = `${process.env.VUE_APP_API_URL}/persons`
-      this.axios.get(url)
-      .then( ({data}) => {
-        this.persons = data
+      const params = {limit: 0}
+      this.axios.get(url, {params})
+      .then( ({data: {items}}) => {
+        this.persons = items
       })
       .catch( (error) => {
         alert('error')

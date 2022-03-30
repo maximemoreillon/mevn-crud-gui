@@ -57,19 +57,16 @@ export default {
   methods: {
     get_persons(){
 
-      
-      
-      
       this.loading = true
-      const url = `${process.env.VUE_APP_API_URL}/persons`
 
+      const url = `${process.env.VUE_APP_API_URL}/persons`
       const { itemsPerPage, page } = this.options
       const params = { limit: itemsPerPage, skip: ( page - 1 ) * itemsPerPage }
 
       this.axios.get(url, { params })
-      .then( ({data}) => {
-        this.total = data.total
-        this.persons = data.items
+      .then( ({data: {total, items}}) => {
+        this.total = total
+        this.persons = items
       })
       .catch( (error) => {
         alert('error')

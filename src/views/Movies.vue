@@ -14,6 +14,8 @@
         :loading="loading"
         :headers="headers"
         :items="movies"
+        :server-items-length="total"
+        :options.sync="options"
         @click:row="row_clicked($event)">
       </v-data-table>
     </v-card-text>
@@ -33,6 +35,8 @@ export default {
     return {
       loading: false,
       movies: [],
+      total: 0,
+      options: {},
       headers: [
         {text: 'Title', value: 'title'},
         {text: 'Director', value: 'director.name'},
@@ -46,9 +50,13 @@ export default {
     get_movies(){
       this.loading = true
       const url = `${process.env.VUE_APP_API_URL}/movies`
-      this.axios.get(url)
-      .then( ({data}) => {
-        this.movies = data
+      const { itemsPerPage, page } = this.options
+      const params = { limit: itemsPerPage, skip: ( page - 1 ) * itemsPerPage }
+
+      this.axios.get(url, { params })
+      .then( ({data: {total, items}}) => {
+        this.total = total
+        this.movies = items
       })
       .catch( (error) => {
         alert('error')
