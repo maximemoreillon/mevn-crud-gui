@@ -60,8 +60,16 @@ export default {
       this.loading = true
 
       const url = `${process.env.VUE_APP_API_URL}/persons`
-      const { itemsPerPage, page } = this.options
-      const params = { limit: itemsPerPage, skip: ( page - 1 ) * itemsPerPage }
+
+      const { itemsPerPage, page, sortBy, sortDesc} = this.options
+
+
+      const params = {
+        limit: itemsPerPage,
+        skip: ( page - 1 ) * itemsPerPage,
+        sort: sortBy[0],
+        order: sortDesc[0] ? -1 : 1,
+      }
 
       this.axios.get(url, { params })
       .then( ({data: {total, items}}) => {

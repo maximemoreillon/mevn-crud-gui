@@ -6,7 +6,7 @@
       <v-spacer />
       <CreateMovieDialog />
     </v-toolbar>
-    
+
     <v-divider/>
 
     <v-card-text>
@@ -46,12 +46,28 @@ export default {
   mounted(){
     this.get_movies()
   },
+  watch: {
+    options: {
+        handler () {
+          this.get_movies()
+        },
+        deep: true,
+      },
+  },
   methods: {
     get_movies(){
       this.loading = true
       const url = `${process.env.VUE_APP_API_URL}/movies`
-      const { itemsPerPage, page } = this.options
-      const params = { limit: itemsPerPage, skip: ( page - 1 ) * itemsPerPage }
+
+      const { itemsPerPage, page, sortBy, sortDesc} = this.options
+
+
+      const params = {
+        limit: itemsPerPage,
+        skip: ( page - 1 ) * itemsPerPage,
+        sort: sortBy[0],
+        order: sortDesc[0] ? -1 : 1,
+      }
 
       this.axios.get(url, { params })
       .then( ({data: {total, items}}) => {
