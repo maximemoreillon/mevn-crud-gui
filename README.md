@@ -1,11 +1,4 @@
-# mongoose_crud_rest_api_front
-
-## Environment variables
-
-| Variable  | Description |
-| --- | --- |
-| VUE_APP_API_URL | The URL of the back-end (required) |
-
+# mevn_crud_front
 
 ## Project setup
 ```

@@ -1,48 +1,49 @@
 <template>
   <v-app>
     <v-app-bar
-      clipped-left
       app
-      dark>
+      color="primary"
+      dark >
 
-      <v-app-bar-nav-icon @click="drawer = !drawer"/>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
-      <v-app-bar-title>CRUD example</v-app-bar-title>
-
-
+      <v-toolbar-title>MEVN CRUD</v-toolbar-title>
 
     </v-app-bar>
 
     <v-navigation-drawer
       v-model="drawer"
-      clipped
-      app >
-      <!-- What is this nav ting? -->
+      app>
+
       <v-list
-        nav >
+        nav
+        dense>
+
         <v-list-item
-          v-for="item in nav"
-          :key="item.title"
-          :to="item.to"
-          exact>
+          v-for="({to, text, icon}, i) in nav"
+          :key="i"
+          exact
+          :to="to">
+
           <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon>{{ icon }}</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title>{{ text }}</v-list-item-title>
           </v-list-item-content>
+
         </v-list-item>
+
       </v-list>
     </v-navigation-drawer>
 
-
-
     <v-main class="grey lighten-4">
-      <v-container fluid>
-        <router-view />
+      <v-container>
+        <router-view/>
       </v-container>
     </v-main>
+
   </v-app>
 </template>
 
@@ -51,15 +52,13 @@
 export default {
   name: 'App',
 
-  components: {
-  },
-
   data: () => ({
-    drawer: null,
+    drawer: false,
     nav: [
-      { title: 'Items', icon: 'mdi-format-list-bulleted', to: {name: 'items'}},
-      { title: 'Info', icon: 'mdi-help-box', to: {name: 'about'} },
-    ],
+      {to: {name: 'home'}, text: 'Home', icon: 'mdi-home'},
+      {to: {name: 'movies'}, text: 'Movies', icon: 'mdi-movie'},
+      {to: {name: 'persons'}, text: 'Persons', icon: 'mdi-account'},
+    ]
   }),
 };
 </script>
