@@ -6,6 +6,9 @@
 
 // Components
 import App from './App.vue'
+import router from './router'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
 // Composables
 import { createApp } from 'vue'
@@ -17,4 +20,10 @@ const app = createApp(App)
 
 registerPlugins(app)
 
-app.mount('#app')
+axios.defaults.baseURL = import.meta.env.VITE_CRUD_REST_API_URL
+
+
+app
+    .use(router)
+    .use(VueAxios, axios)
+    .mount('#app')
