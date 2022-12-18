@@ -23,7 +23,7 @@
   </v-card>
 </template>
 
-<script>
+<script lang="js">
 import CreateMovieDialog from '@/components/CreateMovieDialog.vue'
 
 export default {
