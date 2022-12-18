@@ -57,7 +57,7 @@ export default {
   methods: {
     get_movies(){
       this.loading = true
-      const url = `${process.env.VUE_APP_API_URL}/movies`
+      const url = `/movies`
 
       const { itemsPerPage, page, sortBy, sortDesc} = this.options
 

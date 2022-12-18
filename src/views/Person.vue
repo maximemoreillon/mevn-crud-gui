@@ -98,7 +98,7 @@ export default {
     get_person(){
       this.person = null
       this.loading = true
-      const url = `${process.env.VUE_APP_API_URL}/persons/${this.person_id}`
+      const url = `/persons/${this.person_id}`
       this.axios.get(url)
       .then( ({data}) => {
         this.person = data
@@ -112,7 +112,7 @@ export default {
     delete_person(){
       if(!confirm(`Delete person ${this.person_id}?`)) return
       this.deleting = true
-      const url = `${process.env.VUE_APP_API_URL}/persons/${this.person_id}`
+      const url = `/persons/${this.person_id}`
       this.axios.delete(url)
       .then( () => {
         this.$router.push({name: 'persons'})
@@ -125,7 +125,7 @@ export default {
     },
     update_person(){
       this.updating = true
-      const url = `${process.env.VUE_APP_API_URL}/persons/${this.person_id}`
+      const url = `/persons/${this.person_id}`
       this.axios.patch(url, this.person)
       .then( () => {
         this.snackbar.show = true

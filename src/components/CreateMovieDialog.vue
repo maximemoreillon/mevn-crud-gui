@@ -70,7 +70,7 @@ export default {
   methods: {
     create_movie(){
       this.loading = true
-      const url = `${process.env.VUE_APP_API_URL}/movies`
+      const url = `/movies`
       const body = this.new_movie
       this.axios.post(url, body)
       .then( ({data}) => {

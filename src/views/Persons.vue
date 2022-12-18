@@ -59,7 +59,7 @@ export default {
 
       this.loading = true
 
-      const url = `${process.env.VUE_APP_API_URL}/persons`
+      const url = `/persons`
 
       const { itemsPerPage, page, sortBy, sortDesc} = this.options
 

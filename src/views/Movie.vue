@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     get_movie(){
-      const url = `${process.env.VUE_APP_API_URL}/movies/${this.movie_id}`
+      const url = `/movies/${this.movie_id}`
       this.axios.get(url)
       .then( ({data}) => {
         this.movie = data
@@ -106,7 +106,7 @@ export default {
       .finally( () => { this.loading = false })
     },
     get_persons(){
-      const url = `${process.env.VUE_APP_API_URL}/persons`
+      const url = `/persons`
       const params = {limit: 0}
       this.axios.get(url, {params})
       .then( ({data: {items}}) => {
@@ -121,7 +121,7 @@ export default {
     delete_movie(){
       if(!confirm(`Delete movie ${this.movie_id}?`)) return
       this.deleting = true
-      const url = `${process.env.VUE_APP_API_URL}/movies/${this.movie_id}`
+      const url = `/movies/${this.movie_id}`
       this.axios.delete(url)
       .then( () => {
         this.$router.push({name: 'movies'})
@@ -134,7 +134,7 @@ export default {
     },
     update_movie(){
       this.updating = true
-      const url = `${process.env.VUE_APP_API_URL}/movies/${this.movie_id}`
+      const url = `/movies/${this.movie_id}`
       this.axios.patch(url, this.movie)
       .then( () => {
         this.snackbar.show = true

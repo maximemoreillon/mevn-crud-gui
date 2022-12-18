@@ -69,7 +69,7 @@ export default {
   methods: {
     create_person(){
       this.loading = true
-      const url = `${process.env.VUE_APP_API_URL}/persons`
+      const url = `/persons`
       const body = this.new_person
       this.axios.post(url, body)
       .then( ({data}) => {
