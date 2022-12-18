@@ -10,14 +10,34 @@
     <v-divider/>
 
     <v-card-text>
-      <v-data-table
-        :loading="loading"
-        :headers="headers"
-        :items="movies"
-        :server-items-length="total"
-        :options.sync="options"
-        @click:row="row_clicked($event)">
-      </v-data-table>
+      <!-- Data table not yet part of Vuetify 3 -->
+      <v-table>
+        <thead>
+          <tr>
+            <th class="text-left">Tite</th>
+            <th class="text-left">Year</th>
+            <th class="text-left">Dirctor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="movie in movies" :key="movie._id">
+            <td>
+              <RouterLink :to="{ name: 'movie', params: { _id: movie._id}}">
+                {{ movie.title }}
+              </RouterLink>
+              
+            </td>
+            <td>{{ movie.year }}</td>
+            <td v-if="movie.director">
+              <RouterLink :to="{ name: 'person', params: { _id: movie.director ._id}}">
+                {{ movie.director.name }}
+              </RouterLink>
+            </td>
+            <td v-else> - </td>
+          </tr>
+        </tbody>
+      </v-table>
+      
     </v-card-text>
 
   </v-card>
@@ -46,28 +66,13 @@ export default {
   mounted(){
     this.get_movies()
   },
-  watch: {
-    options: {
-        handler () {
-          this.get_movies()
-        },
-        deep: true,
-      },
-  },
+
   methods: {
     get_movies(){
       this.loading = true
-      const url = `${process.env.VUE_APP_API_URL}/movies`
+      const url = `/movies`
 
-      const { itemsPerPage, page, sortBy, sortDesc} = this.options
-
-
-      const params = {
-        limit: itemsPerPage,
-        skip: ( page - 1 ) * itemsPerPage,
-        sort: sortBy[0],
-        order: sortDesc[0] ? -1 : 1,
-      }
+      const params = { limit: 0 }
 
       this.axios.get(url, { params })
       .then( ({data: {total, items}}) => {

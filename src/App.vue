@@ -1,19 +1,19 @@
 <template>
   <v-app>
     <v-app-bar
-      app
       color="primary"
-      dark >
+      theme="dark" >
 
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <template v-slot:prepend>
+        <v-app-bar-nav-icon @click="drawer = !drawer" />
+      </template>
+
 
       <v-toolbar-title>MEVN CRUD</v-toolbar-title>
 
     </v-app-bar>
 
-    <v-navigation-drawer
-      v-model="drawer"
-      app>
+    <v-navigation-drawer v-model="drawer">
 
       <v-list
         nav
@@ -23,17 +23,10 @@
           v-for="({to, text, icon}, i) in nav"
           :key="i"
           exact
-          :to="to">
+          :to="to"
+          :title="text"
+          :prepend-icon="icon" />
 
-          <v-list-item-icon>
-            <v-icon>{{ icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ text }}</v-list-item-title>
-          </v-list-item-content>
-
-        </v-list-item>
 
       </v-list>
     </v-navigation-drawer>
@@ -47,18 +40,21 @@
   </v-app>
 </template>
 
-<script>
+<script lang="js">
 
 export default {
   name: 'App',
 
-  data: () => ({
-    drawer: false,
-    nav: [
-      {to: {name: 'home'}, text: 'Home', icon: 'mdi-home'},
-      {to: {name: 'movies'}, text: 'Movies', icon: 'mdi-movie'},
-      {to: {name: 'persons'}, text: 'Persons', icon: 'mdi-account'},
-    ]
-  }),
+  data(){
+    return {
+      drawer: false,
+      nav: [
+        { to: { name: 'home' }, text: 'Home', icon: 'mdi-home' },
+        { to: { name: 'movies' }, text: 'Movies', icon: 'mdi-movie' },
+        { to: { name: 'persons' }, text: 'Persons', icon: 'mdi-account' },
+      ]
+    }
+    
+  },
 };
 </script>

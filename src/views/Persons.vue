@@ -10,14 +10,22 @@
     <v-divider/>
 
     <v-card-text>
-      <v-data-table
-        :loading="loading"
-        :headers="headers"
-        :items="persons"
-        :server-items-length="total"
-        :options.sync="options"
-        @click:row="row_clicked($event)">
-      </v-data-table>
+      <v-table>
+        <thead>
+          <tr>
+            <th class="text-left">Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="person in persons" :key="person._id">
+            <td>
+              <RouterLink :to="{ name: 'person', params: { _id: person._id } }">
+                {{ person.name }}
+              </RouterLink>
+            </td>
+          </tr>
+        </tbody>
+      </v-table>
     </v-card-text>
 
   </v-card>
@@ -59,17 +67,10 @@ export default {
 
       this.loading = true
 
-      const url = `${process.env.VUE_APP_API_URL}/persons`
-
-      const { itemsPerPage, page, sortBy, sortDesc} = this.options
+      const url = `/persons`
 
 
-      const params = {
-        limit: itemsPerPage,
-        skip: ( page - 1 ) * itemsPerPage,
-        sort: sortBy[0],
-        order: sortDesc[0] ? -1 : 1,
-      }
+      const params = { limit: 0 }
 
       this.axios.get(url, { params })
       .then( ({data: {total, items}}) => {

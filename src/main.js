@@ -1,16 +1,29 @@
-import Vue from 'vue'
+/**
+ * main.js
+ *
+ * Bootstraps Vuetify and other plugins then mounts the App`
+ */
+
+// Components
 import App from './App.vue'
 import router from './router'
-import vuetify from './plugins/vuetify'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
-Vue.use(VueAxios, axios)
+// Composables
+import { createApp } from 'vue'
 
-Vue.config.productionTip = false
+// Plugins
+import { registerPlugins } from '@/plugins'
 
-new Vue({
-  router,
-  vuetify,
-  render: h => h(App)
-}).$mount('#app')
+const app = createApp(App)
+
+registerPlugins(app)
+
+axios.defaults.baseURL = import.meta.env.VITE_CRUD_REST_API_URL
+
+
+app
+    .use(router)
+    .use(VueAxios, axios)
+    .mount('#app')

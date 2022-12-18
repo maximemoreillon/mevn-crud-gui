@@ -3,31 +3,20 @@
       v-model="dialog"
       max-width="800">
 
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          dark
-          color="primary"
-          v-bind="attrs"
-          v-on="on">
-          <v-icon>mdi-plus</v-icon>
-          <span class="ml-2">Create movie</span>
+      <template v-slot:activator="{ props }">
+        <v-btn prepend-icon="mdi-plus" v-bind="props">
+          Create movie
         </v-btn>
       </template>
 
       <v-card>
 
-        <v-toolbar flat>
+        <v-card-title>
+          Create person
+        </v-card-title>
 
-          <v-toolbar-title>Create Movie</v-toolbar-title>
-          <v-spacer/>
-          <v-btn
-            text
-            @click="dialog=false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-toolbar>
-        <v-card-text>
-          <v-form @submit.prevent="create_movie()">
+        <v-form @submit.prevent="create_movie()">
+          <v-card-text>
 
             <v-row align="baseline">
               <v-col>
@@ -35,24 +24,24 @@
                   label="Title"
                   v-model="new_movie.title"/>
               </v-col>
-              <v-col cols="auto">
-                <v-btn
-                  :loading="loading"
-                  type="submit">
-                  <v-icon>mdi-plus</v-icon>
-                  <span class="ml-2">Create movie</span>
-                </v-btn>
-              </v-col>
             </v-row>
-          </v-form>
-
-        </v-card-text>
+            
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn variant="text" @click="dialog=false">
+              Close
+            </v-btn>
+            <v-btn type="submit" variant="text">
+              Create person
+            </v-btn>
+          
+          </v-card-actions>
+        </v-form>
 
       </v-card>
 
     </v-dialog>
-
-
 </template>
 
 <script>
@@ -70,7 +59,7 @@ export default {
   methods: {
     create_movie(){
       this.loading = true
-      const url = `${process.env.VUE_APP_API_URL}/movies`
+      const url = `/movies`
       const body = this.new_movie
       this.axios.post(url, body)
       .then( ({data}) => {

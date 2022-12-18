@@ -3,31 +3,18 @@
       v-model="dialog"
       max-width="800">
 
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          dark
-          color="primary"
-          v-bind="attrs"
-          v-on="on">
-          <v-icon>mdi-plus</v-icon>
-          <span class="ml-2">Create Person</span>
+      <template v-slot:activator="{ props }">
+        <v-btn prepend-icon="mdi-plus" v-bind="props">
+          Create person
         </v-btn>
       </template>
 
       <v-card>
-
-        <v-toolbar flat>
-
-          <v-toolbar-title>Create Person</v-toolbar-title>
-          <v-spacer/>
-          <v-btn
-            text
-            @click="dialog=false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-toolbar>
-        <v-card-text>
-          <v-form @submit.prevent="create_person()">
+        <v-card-title>
+          Create Movie
+        </v-card-title>
+        <v-form @submit.prevent="create_person()">
+          <v-card-text>
 
             <v-row align="baseline">
               <v-col>
@@ -35,17 +22,22 @@
                   label="Name"
                   v-model="new_person.name"/>
               </v-col>
-              <v-col cols="auto">
-                <v-btn type="submit">
-                  <v-icon>mdi-plus</v-icon>
-                  <span class="ml-2">Create person</span>
-                </v-btn>
-              </v-col>
             </v-row>
 
-          </v-form>
-
-        </v-card-text>
+            
+          </v-card-text>
+          
+          <v-card-actions>
+            <v-spacer />
+            <v-btn variant="text" @click="dialog=false">
+              Close
+            </v-btn>
+            <v-btn type="submit" variant="text">
+              Create movie
+            </v-btn>
+            
+          </v-card-actions>
+        </v-form>
 
       </v-card>
 
@@ -69,7 +61,7 @@ export default {
   methods: {
     create_person(){
       this.loading = true
-      const url = `${process.env.VUE_APP_API_URL}/persons`
+      const url = `/persons`
       const body = this.new_person
       this.axios.post(url, body)
       .then( ({data}) => {
