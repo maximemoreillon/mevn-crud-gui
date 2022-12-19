@@ -9,8 +9,8 @@
           color="primary"
           v-bind="attrs"
           v-on="on">
-          <v-icon>mdi-plus</v-icon>
-          <span class="ml-2">Create Person</span>
+          <v-icon left>mdi-plus</v-icon>
+          <span>Create Person</span>
         </v-btn>
       </template>
 
@@ -37,8 +37,8 @@
               </v-col>
               <v-col cols="auto">
                 <v-btn type="submit">
-                  <v-icon>mdi-plus</v-icon>
-                  <span class="ml-2">Create person</span>
+                  <v-icon left>mdi-plus</v-icon>
+                  <span>Create person</span>
                 </v-btn>
               </v-col>
             </v-row>

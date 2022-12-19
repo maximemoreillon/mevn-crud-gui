@@ -9,8 +9,8 @@
           color="primary"
           v-bind="attrs"
           v-on="on">
-          <v-icon>mdi-plus</v-icon>
-          <span class="ml-2">Create movie</span>
+          <v-icon left>mdi-plus</v-icon>
+          <span>Create movie</span>
         </v-btn>
       </template>
 
@@ -39,8 +39,8 @@
                 <v-btn
                   :loading="loading"
                   type="submit">
-                  <v-icon>mdi-plus</v-icon>
-                  <span class="ml-2">Create movie</span>
+                  <v-icon left>mdi-plus</v-icon>
+                  <span>Create movie</span>
                 </v-btn>
               </v-col>
             </v-row>
