@@ -63,25 +63,23 @@ export default {
       },
   },
   methods: {
-    get_persons(){
+    async get_persons(){
 
       this.loading = true
-
       const url = `/persons`
-
-
       const params = { limit: 0 }
 
-      this.axios.get(url, { params })
-      .then( ({data: {total, items}}) => {
+      try {
+        const { data: { total, items } } = await this.axios.get(url, { params })
         this.total = total
         this.persons = items
-      })
-      .catch( (error) => {
-        alert('error')
+      } catch (error) {
+        alert('Failed to get items')
         console.error(error)
-      })
-      .finally( () => { this.loading = false })
+      } finally {
+        this.loading = false
+      }
+
     },
     row_clicked({_id}){
       this.$router.push({name: 'person', params: {_id}})

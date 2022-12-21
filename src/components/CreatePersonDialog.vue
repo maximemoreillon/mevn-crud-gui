@@ -59,19 +59,21 @@ export default {
     }
   },
   methods: {
-    create_person(){
+    async create_person(){
       this.loading = true
       const url = `/persons`
       const body = this.new_person
-      this.axios.post(url, body)
-      .then( ({data}) => {
-        this.$router.push({name: 'person', params: {_id: data._id}})
-      })
-      .catch( (error) => {
-        alert('error')
+    
+      try {
+        const { data: { _id } } = await this.axios.post(url, body)
+        this.$router.push({ name: 'person', params: { _id } })
+      } catch (error) {
+        alert('Failed to create item')
         console.error(error)
-      })
-      .finally( () => { this.loading = false })
+      } finally {
+        this.loading = false
+      }
+
     }
   }
 }

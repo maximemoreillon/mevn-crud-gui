@@ -94,61 +94,68 @@ export default {
     this.get_persons()
   },
   methods: {
-    get_movie(){
+    async get_movie(){
+      this.movie = null
+      this.loading = true
       const url = `/movies/${this.movie_id}`
-      this.axios.get(url)
-      .then( ({data}) => {
+      try {
+        const { data } = await this.axios.get(url)
         this.movie = data
-      })
-      .catch( (error) => {
-        alert('error')
+      } catch (error) {
+        alert('Failed to get item')
         console.error(error)
-      })
-      .finally( () => { this.loading = false })
+      } finally {
+        this.loading = false
+      }
     },
-    get_persons(){
+    async get_persons(){
       const url = `/persons`
       const params = {limit: 0}
-      this.axios.get(url, {params})
-      .then( ({data: {items}}) => {
+      try {
+        const { data: {items} } = await this.axios.get(url, { params })
         this.persons = items
-      })
-      .catch( (error) => {
-        alert('error')
+      } catch (error) {
         console.error(error)
-      })
-      .finally( () => { this.loading = false })
+        this.snackbar.show = true
+        this.snackbar.text = 'Failed to query persons'
+        this.snackbar.color = 'error'
+      } 
+
     },
-    delete_movie(){
+    async delete_movie(){
       if(!confirm(`Delete movie ${this.movie_id}?`)) return
       this.deleting = true
-      const url = `/movies/${this.movie_id}`
-      this.axios.delete(url)
-      .then( () => {
-        this.$router.push({name: 'movies'})
-      })
-      .catch( (error) => {
-        alert('error')
+      const url = `/movies/${this.movie_id}`     
+      try {
+        await this.axios.delete(url)
+        this.$router.push({ name: 'movies' })
+      } catch (error) {
         console.error(error)
-      })
-      .finally( () => { this.deleting = false })
+        this.snackbar.show = true
+        this.snackbar.text = 'Deletion failed'
+        this.snackbar.color = 'error'
+      } finally {
+        this.deleting = false
+      }
     },
-    update_movie(){
+    async update_movie(){
       this.updating = true
       const url = `/movies/${this.movie_id}`
-      this.axios.patch(url, this.movie)
-      .then( () => {
+
+      try {
+        await this.axios.patch(url, this.movie)
         this.snackbar.show = true
-        this.snackbar.text = 'Movie updated'
+        this.snackbar.text = 'Update successul'
         this.snackbar.color = 'success'
-      })
-      .catch( (error) => {
-        alert('error')
+      } catch (error) {
         console.error(error)
-      })
-      .finally(() => {
+        this.snackbar.show = true
+        this.snackbar.text = 'Update failed'
+        this.snackbar.color = 'error'
+      } finally {
         this.updating = false
-      })
+      }
+      
     }
 
   },

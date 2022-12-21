@@ -68,22 +68,22 @@ export default {
   },
 
   methods: {
-    get_movies(){
+    async get_movies(){
       this.loading = true
       const url = `/movies`
-
       const params = { limit: 0 }
 
-      this.axios.get(url, { params })
-      .then( ({data: {total, items}}) => {
+      try {
+        const { data: { total, items } } = await this.axios.get(url, { params })
         this.total = total
         this.movies = items
-      })
-      .catch( (error) => {
-        alert('error')
+      } catch (error) {
+        alert('Failed to get items')
         console.error(error)
-      })
-      .finally( () => { this.loading = false })
+      } finally {
+        this.loading = false
+      }
+
     },
     row_clicked({_id}){
       this.$router.push({name: 'movie', params: {_id}})

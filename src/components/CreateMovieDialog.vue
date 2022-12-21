@@ -57,19 +57,20 @@ export default {
     }
   },
   methods: {
-    create_movie(){
+    async create_movie(){
       this.loading = true
       const url = `/movies`
       const body = this.new_movie
       this.axios.post(url, body)
-      .then( ({data}) => {
-        this.$router.push({name: 'movie', params: {_id: data._id}})
-      })
-      .catch( (error) => {
-        alert('error')
+      try {
+        const { data: { _id } } = await this.axios.post(url, body)
+        this.$router.push({ name: 'movie', params: { _id } })
+      } catch (error) {
+        alert('Failed to create item')
         console.error(error)
-      })
-      .finally( () => { this.loading = false })
+      } finally {
+        this.loading = false
+      }
     }
   }
 }

@@ -95,50 +95,57 @@ export default {
     this.get_person()
   },
   methods: {
-    get_person(){
+    async get_person(){
       this.person = null
       this.loading = true
       const url = `/persons/${this.person_id}`
-      this.axios.get(url)
-      .then( ({data}) => {
+      try {
+        const { data } = await this.axios.get(url)
         this.person = data
-      })
-      .catch( (error) => {
-        alert('error')
+      } catch (error) {
+        this.snackbar.show = true
+        this.snackbar.text = 'Failed to get item'
+        this.snackbar.color = 'error'
         console.error(error)
-      })
-      .finally( () => { this.loading = false })
+      } finally {
+        this.loading = false
+      }
     },
-    delete_person(){
-      if(!confirm(`Delete person ${this.person_id}?`)) return
+    async delete_person(){
+      if (!confirm(`Delete person ${this.person_id}?`)) return
       this.deleting = true
       const url = `/persons/${this.person_id}`
-      this.axios.delete(url)
-      .then( () => {
-        this.$router.push({name: 'persons'})
-      })
-      .catch( (error) => {
-        alert('error')
+      try {
+        await this.axios.delete(url)
+        this.$router.push({ name: 'persons' })
+      } catch (error) {
         console.error(error)
-      })
-      .finally( () => { this.deleting = false })
+        this.snackbar.show = true
+        this.snackbar.text = 'Deletion failed'
+        this.snackbar.color = 'error'
+      } finally {
+        this.deleting = false
+      }
+
     },
-    update_person(){
+    async update_person(){
       this.updating = true
       const url = `/persons/${this.person_id}`
-      this.axios.patch(url, this.person)
-      .then( () => {
+
+      try {
+        await this.axios.patch(url, this.person)
         this.snackbar.show = true
-        this.snackbar.text = 'Person updated'
+        this.snackbar.text = 'Update successul'
         this.snackbar.color = 'success'
-      })
-      .catch( (error) => {
-        alert('error')
+      } catch (error) {
         console.error(error)
-      })
-      .finally(() => {
+        this.snackbar.show = true
+        this.snackbar.text = 'Update failed'
+        this.snackbar.color = 'error'
+      } finally {
         this.updating = false
-      })
+      }
+
     }
 
   },
