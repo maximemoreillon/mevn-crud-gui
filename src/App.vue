@@ -1,60 +1,39 @@
 <template>
   <v-app>
-    <v-app-bar
-      color="primary"
-      theme="dark" >
-
-      <template v-slot:prepend>
+    <v-main>
+      <v-app-bar>
         <v-app-bar-nav-icon @click="drawer = !drawer" />
-      </template>
+        <v-app-bar-title text="Todo List GUI" />
+      </v-app-bar>
 
+      <v-navigation-drawer v-model="drawer">
+        <v-list>
+          <v-list-item
+            v-for="item in nav_items"
+            :key="item.title"
+            :title="item.title"
+            :to="item.to"
+          />
+        </v-list>
+      </v-navigation-drawer>
 
-      <v-toolbar-title>MEVN CRUD</v-toolbar-title>
-
-    </v-app-bar>
-
-    <v-navigation-drawer v-model="drawer">
-
-      <v-list
-        nav
-        dense>
-
-        <v-list-item
-          v-for="({to, text, icon}, i) in nav"
-          :key="i"
-          exact
-          :to="to"
-          :title="text"
-          :prepend-icon="icon" />
-
-
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-main class="grey lighten-4">
-      <v-container>
-        <router-view/>
-      </v-container>
+      <v-main>
+        <v-container fluid>
+          <router-view />
+        </v-container>
+      </v-main>
     </v-main>
-
   </v-app>
 </template>
 
-<script lang="js">
+<script lang="ts" setup>
+import { ref } from "vue";
 
-export default {
-  name: 'App',
-
-  data(){
-    return {
-      drawer: false,
-      nav: [
-        { to: { name: 'home' }, text: 'Home', icon: 'mdi-home' },
-        { to: { name: 'movies' }, text: 'Movies', icon: 'mdi-movie' },
-        { to: { name: 'persons' }, text: 'Persons', icon: 'mdi-account' },
-      ]
-    }
-    
+const drawer = ref(false);
+const nav_items = [
+  {
+    title: "タスク一覧",
+    to: "/todos",
   },
-};
+];
 </script>
