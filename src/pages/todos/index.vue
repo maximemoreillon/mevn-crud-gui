@@ -54,23 +54,9 @@ const headers = [
 const urlParamsSchema = z.object({
   skip: z.coerce.number().gte(0).catch(0),
   take: z.coerce.number().gte(1).catch(10),
-  // if headers have sortable, use filter method for js array
+  // if headers have sortable, add filter method for js
   sort: z.literal(headers.map((header) => header.key)).catch("id"),
   order: z.literal(["asc", "desc"]).catch("asc"),
-  priority: z.string().optional(),
-  name: z.string().optional(),
-});
-
-const queryOptionsSchema = z.object({
-  page: z.coerce.number(),
-  itemsPerPage: z.coerce.number(),
-  sortBy: z.array(
-    z.object({
-      // if headers have sortable, use filter method for js array
-      key: z.literal(headers.map((header) => header.key)).catch("id"),
-      order: z.literal(["asc", "desc"]).optional(),
-    })
-  ),
   priority: z.string().optional(),
   name: z.string().optional(),
 });
@@ -87,12 +73,18 @@ async function get_items() {
 
   const params = urlParamsSchema.parse(route.query);
 
-  const { data } = await axios.get("/todos", { params });
+  try {
+    const { data } = await axios.get("/todos", { params });
 
-  items.value = data.items;
-  totalItems.value = data.total;
+    items.value = data.items;
+    totalItems.value = data.total;
+  } catch (e) {
+    console.error(e);
 
-  loading.value = false;
+    alert("failed to get data, see console for details");
+  } finally {
+    loading.value = false;
+  }
 }
 
 function urlParamsToQueryOptions() {
@@ -110,8 +102,7 @@ function urlParamsToQueryOptions() {
 }
 
 async function queryOptionsToUrlParams() {
-  const { page, itemsPerPage, sortBy, priority, name } =
-    queryOptionsSchema.parse(queryOptions.value);
+  const { page, itemsPerPage, sortBy, priority, name } = queryOptions.value;
 
   await router.replace({
     query: {
@@ -134,7 +125,7 @@ async function handleSearchParamsUpdate(search_params: any) {
 watch(
   queryOptions,
   async () => {
-    // awaitがないとquery更新前の値でデータ更新してしまう
+    // if no await, get_items() is triggered before change query
     await queryOptionsToUrlParams();
 
     get_items();

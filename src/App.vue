@@ -7,13 +7,18 @@
       </v-app-bar>
 
       <v-navigation-drawer v-model="drawer">
-        <v-list v-for="item in nav_items">
-          <v-list-item :title="item.title" :to="item.to" />
+        <v-list>
+          <v-list-item
+            v-for="item in nav_items"
+            :key="item.title"
+            :title="item.title"
+            :to="item.to"
+          />
         </v-list>
       </v-navigation-drawer>
 
       <v-main>
-        <v-container>
+        <v-container fluid>
           <router-view />
         </v-container>
       </v-main>

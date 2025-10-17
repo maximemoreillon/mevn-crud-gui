@@ -1,9 +1,13 @@
 <template>
   <v-btn text="新規作成" @click="dialog = true" />
 
-  <v-dialog v-model="dialog" max-width="1000px">
+  <v-dialog v-model="dialog" max-width="1000px" :persistent="posting">
     <v-card>
-      <v-card-title> タスク新規作成 </v-card-title>
+      <v-toolbar>
+        <v-toolbar-title text="タスク新規作成" />
+        <v-spacer />
+        <v-btn icon="mdi-close" @click="dialog = false" :disabled="posting" />
+      </v-toolbar>
 
       <v-form @submit.prevent="post_todo">
         <v-card-text>
@@ -33,10 +37,17 @@ const todo = ref<any>({ name: "" });
 async function post_todo() {
   posting.value = true;
 
-  const { data } = await axios.post("/todos", todo.value);
+  try {
+    const { data } = await axios.post("/todos", todo.value);
 
-  posting.value = false;
+    posting.value = false;
 
-  router.push({ path: `todos/${data.at(0).id}` });
+    router.push({ path: `todos/${data[0].id}` });
+  } catch (e) {
+    console.error(e);
+    alert("failed to post data, see console for details");
+  } finally {
+    posting.value = false;
+  }
 }
 </script>

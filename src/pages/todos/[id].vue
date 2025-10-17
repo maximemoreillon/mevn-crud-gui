@@ -4,7 +4,6 @@
       <v-btn
         prepend-icon="mdi-arrow-left"
         @click="router.push({ path: '/todos' })"
-        :disabled
       />
       <v-toolbar-title>タスク詳細</v-toolbar-title>
       <v-btn
@@ -47,26 +46,41 @@ const updating = ref(false);
 const deleting = ref(false);
 
 const disabled = computed(
-  () => loading.value || updating.value || deleting.value
+  () =>
+    loading.value ||
+    updating.value ||
+    deleting.value ||
+    !Object.keys(todo.value).length
 );
 
 onMounted(async () => {
   loading.value = true;
 
-  const { data } = await axios.get(`todos/${id}`);
-  todo.value = data;
-
-  loading.value = false;
+  try {
+    const { data } = await axios.get(`todos/${id}`);
+    todo.value = data;
+  } catch (e) {
+    console.error(e);
+    alert("failed to get data, see console for details");
+  } finally {
+    loading.value = false;
+  }
 });
 
 async function put_todo() {
   updating.value = true;
 
-  await axios.patch(`/todos/${id}`, todo.value);
+  try {
+    await axios.patch(`/todos/${id}`, todo.value);
 
-  updating.value = false;
-
-  alert("このタスクを更新しました");
+    updating.value = false;
+    alert("このタスクを更新しました");
+  } catch (e) {
+    console.error(e);
+    alert("failed to update data, see console for details");
+  } finally {
+    updating.value = false;
+  }
 }
 
 async function delete_todo() {
@@ -74,10 +88,16 @@ async function delete_todo() {
 
   deleting.value = true;
 
-  await axios.delete(`/todos/${id}`);
+  try {
+    await axios.delete(`/todos/${id}`);
 
-  deleting.value = false;
-
-  router.push({ path: "/" });
+    deleting.value = false;
+    router.push({ path: "/" });
+  } catch (e) {
+    console.error(e);
+    alert("failed to delete data, see console for details");
+  } finally {
+    deleting.value = false;
+  }
 }
 </script>
