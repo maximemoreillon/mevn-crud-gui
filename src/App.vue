@@ -1,6 +1,5 @@
 <template>
   <v-app>
-    <v-main>
       <v-app-bar>
         <v-app-bar-nav-icon @click="drawer = !drawer" />
         <v-app-bar-title text="Todo List GUI" />
@@ -18,11 +17,10 @@
       </v-navigation-drawer>
 
       <v-main>
-        <v-container fluid>
+        <v-container>
           <router-view />
         </v-container>
       </v-main>
-    </v-main>
   </v-app>
 </template>
 
