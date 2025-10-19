@@ -39,10 +39,7 @@ async function post_todo() {
 
   try {
     const { data } = await axios.post("/todos", todo.value);
-
-    posting.value = false;
-
-    router.push({ path: `todos/${data[0].id}` });
+    router.push({ path: `todos/${data.id}` });
   } catch (e) {
     console.error(e);
     alert("failed to post data, see console for details");
